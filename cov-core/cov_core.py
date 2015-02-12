@@ -10,15 +10,15 @@ import os
 
 def multiprocessing_start(obj):
     cov = cov_core_init.init()
-    if cov is not None:
-        import multiprocessing.util
-        multiprocessing.util.Finalize(
-            None, multiprocessing_finish, args=(cov,), exitpriority=1000)
+    import multiprocessing.util
+    multiprocessing.util.Finalize(
+        None, multiprocessing_finish, args=(cov,), exitpriority=1000)
 
 
 def multiprocessing_finish(cov):
-    cov.stop()
-    cov.save()
+    if cov is not None:
+        cov.stop()
+        cov.save()
 
 
 try:
